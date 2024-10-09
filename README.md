@@ -167,4 +167,21 @@
       }
     ]
     ```
+
+  ## Vue 라우팅 컴포넌트
+  이렇게 라우터에 등록된 컴포넌트를 요청이 들어왔을 때 특정 영역에 출력할 수 있게 해주는 태그가 있는데 `<router-view/>` 태그이다.  
+  vue에서는 브라우저의 주소창 뿐만 아니라 클리커블 한 네비게이션 영역의 anchor태그 역할을 해주는것이 있으며 `<router-link to="/주소"></router-link>` 이다.
+
+  - router-link/router-view
+    ```html
+    <template>
+      <div id="app">
+        <div id="nav">
+          <router-link to="/">Home!</router-link>
+          <router-link to="/">About!!!</router-link>
+        </div>
+        <router-view/>
+      </div>
+    </template>
+    ```
 </details>
