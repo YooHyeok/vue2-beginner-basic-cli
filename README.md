@@ -127,10 +127,44 @@
   ```bash
   npx @vue/cli crate 프로젝트명
   ```
+</details>
 
 <details>
   <summary style="font-size:30px; font-weight:bold; font-style:italic;">
-    목차 접은글 기본 템플릿
+    SPA와 Vue Router
   </summary>
 
+  SPA란 하나의 페이지로 구성된 웹사이트를 말한다.  
+
+  Vue는 SPA 구조로 이루어져 있으며, 특정 URL 요청이 들어오면 컴포넌트를 라우트 시킴으로써 페이지를 전환할 수 있는 효과를 줄 수 있다.
+
+  ## VueRouter
+  Router 방식은 미리 컴포넌트와 주소를 Router 내부 객체에 매핑시켜둔 뒤, 등록된 주소에 대한 요청이 들어왔을 때 라우터에서 해당 주소와 매핑되는 컴포넌트를 출력하게 된다.
+  
+  매핑되는 객체 단위를 route라고 부르며 이러한 route 객체를 배열로 구성하는 것이 routes 이다.  
+  각 구조는 아래와 같다.  
+
+  - route Object구조
+    ```js
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    }
+    ```
+  - routes 구조
+    ```js
+    [
+      {
+        path: '/',
+        name: 'home',
+        component: Home
+      },
+      {
+        path: '/about',
+        name: 'about',
+        component: About
+      }
+    ]
+    ```
 </details>
