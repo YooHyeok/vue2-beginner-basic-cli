@@ -185,3 +185,79 @@
     </template>
     ```
 </details>
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    CLI 기반 컴포넌트
+  </summary>
+
+  CLI 기반 Vue 프로젝트에서 컴포넌트는 .js 확장자가 아닌 .vue 확장자 파일로 작성한다.
+  기본 구조는 아래와 같다
+
+  - .vue 확장자 컴포넌트
+    ```html
+    <template>
+      <ExComponent/>
+    </template>
+    <script>
+    import ExComponent from '@/components/ExComponent.vue'
+    export default {
+      components: {
+        ExComponent
+      },
+      data() {
+        return {}
+      },
+      methods: {
+        updateName() {
+          this.name = 'YooHyeok School Updated'
+        }
+      }
+      
+    }
+    </script>
+    <style scoped>
+
+    </style>
+    ```
+  
+    `<style></style>` 태그에 scoped 속성을 적용하면, 해당 컴포넌트 내에서만 style이 적용된다.  
+    컴포넌트 간 참조는 script> 영역에서 import 문을 사용한 뒤 components 속성에 객체로 등록해서 사용한다.  
+    CDN 방식과 같으며, 하나 차이점은 ` template:`` ` 속성에 작성하던 html 표현식을 `<template></template>` 태그 안에 선언한다.  
+    이때 주의할 점은 다중 태그를 하나의 최상위 태그로 묶어야만 한다.
+
+    ```html
+    <template>
+      <div>div1</div>
+      <div>div2</div>
+    </template>
+    ```
+    위와 같이 작성하면 오류가 발생한다.
+    ```html
+    <template>
+      <div>
+        <div>div1</div>
+        <div>div2</div>
+      </div>
+    </template>
+    ```
+    위와 같이 작성 최 상위 단일 태그로 묶어야만 한다.
+</details>
+
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    접은글 템플릿
+  </summary>
+
+  내용
+
+  ## 주제
+  내용
+
+  - 예시코드
+    ```js
+    ```
+  - 예시코드
+    ```html
+    ```
+  
+</details>
