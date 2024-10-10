@@ -4,6 +4,7 @@
     <p>{{ name }}</p>
     <button @click="updateName">Change Name</button>
     <yoo-hyeok-school/>
+    <YooHyeokSchool/>
   </div>
 </template>
 <script>
