@@ -3,8 +3,8 @@
     <h1>This is a Home page</h1>
     <p>{{ name }}</p>
     <button @click="updateName">Change Name</button>
-    <yoo-hyeok-school/>
-    <YooHyeokSchool/>
+    <YooHyeokSchool />
+    <yoo-hyeok-school v-bind="props"/>
   </div>
 </template>
 <script>
@@ -13,7 +13,10 @@ export default {
   components: { YooHyeokSchool },
   data() {
     return {
-      name: 'YooHyeok School'
+      name: 'YooHyeok School',
+      props: {
+        title: '홈타이틀'
+      }
     }
   },
   methods: {
