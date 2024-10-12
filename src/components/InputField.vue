@@ -1,11 +1,17 @@
 <template>
   <div>
     <label for="">Name</label>
-    <input 
+    <!-- <input 
       type="text" 
       :value="name" 
       style="padding: 30px; border: 2px solid green"
       @input=" changeName"
+    > -->
+    <input 
+      type="text" 
+      :value="name" 
+      style="padding: 30px; border: 2px solid green"
+      @input="$emit('changeName', $event.target.value)"
     >
   </div>
 </template>
@@ -19,10 +25,10 @@ export default {
       default: null
     },
   },
-  methods: {
+  /* methods: {
     changeName(e) {
       this.$emit('changeName', e.target.value)
     }
-  }
+  } */
 }
 </script>
