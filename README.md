@@ -245,6 +245,101 @@
 
 <details>
   <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    Props
+  </summary>
+
+  부모 컴포넌트에서 자식 컴포넌트로 데이터(state 혹은 value)를 전달할때 사용한다.  
+  `v-bind:props명="props 혹은 value"` 혹은 축약형인   
+  `:props명="props 혹은 value"` 를 사용하여 보낼 수 있다.  
+
+  자식 컴포넌트에서는 props 속성을 통해 컴포넌트 내에서 재정의한 후 사용할 수 있다.  
+  Array와 Object 두가지 타입으로 정의할 수 있으며, Object의 경우 propType을 지원한다.
+
+  - 예시 코드  
+      ```js
+      export default {
+        props: ['title']
+      }
+      ```
+
+  - ## Props 정의와 PropType
+
+    - **type**  
+      넘겨 받은 prop의 타입을 지정한다. (String, Number Object Array 등)  
+      타입스크립트를 사용한다면 사용자 정의 타입을 지정할 수 있다.  
+      만약 String으로 지정한 후 Number 타입의 값 5를 넘긴다면  
+      `Invalid prop: type check failed for prop "title". Expected String with value "5", got Number with value 5.`  
+      Vue warn이 콘솔에 출력된다.
+
+    - **required**  
+      필수 여부를 지정한다.  
+      만약 true로 지정한 후 값을 넘기지 않는다면  
+      `Missing required prop: "prop명"`  
+      Vue warn이 콘솔에 출력된다.
+
+    - **default**  
+      기본값을 지정한다.  
+      부모 컴포넌트에서 prop 값을 적용하지 않았을 경우 해당 값이 기본 값으로 적용된다.
+
+    - 예시 코드  
+      ```js
+      export default {
+        props: {
+          title: {
+            type: String,
+            required: true,
+            default: "default title"
+          }
+        },
+      }
+      ```
+
+  - 부모컴포넌트
+    ```html
+    <template>
+      <자식컴포넌트 v-bind="props"/>
+    </template>
+    <script>
+    import 자식컴포넌트 from '@/components/YooHyeokSchool.vue'
+    export default {
+      components: { 자식컴포넌트 },
+      data() {
+        return {
+          name: 'YooHyeok School',
+          props: {
+            title: '타이틀'
+          }
+        }
+      },
+    }
+    </script>
+    ```
+  - 자식컴포넌트
+    ```html
+    <template>
+      <h1>{{ title }}</h1>
+    </template>
+    <script>
+    export default {
+       props: {
+        title: {
+          type: String,
+          required: true,
+          default: "default title"
+        }
+      },
+    }
+    </script>
+    ```
+  
+    주의할 점으로는 primitive 타입의 props는 값을 직접 수정할 수 없다.
+    그러나 Object 타입의 props는 해당 Object의 property 값을 직접 접근하여 수정할 수 있다.
+    `[Vue Warn]: Avoid mutating a prop directlry since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutatedL "props명"`
+    또한 해당 컴포넌트의 state 즉, data property에 동일한 이름이 존재할 수 없다.
+    `[Vue Warn]: The data property "props명" is already declared as a prop. Use prop default value instead`
+</details>
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
     접은글 템플릿
   </summary>
 
