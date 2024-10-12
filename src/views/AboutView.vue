@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <YooHyeokSchool/>
+    <YooHyeokSchool v-bind="props"/>
 
   </div>
 </template>
@@ -12,7 +12,10 @@ export default {
   components: { YooHyeokSchool },
   data() {
     return {
-      name: 'YooHyeok School'
+      name: 'YooHyeok School',
+      props: {
+        title: '어바웃타이틀'
+      }
     }
   },
   methods: {
