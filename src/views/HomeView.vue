@@ -2,7 +2,8 @@
   <div>
     <form action="">
       <!-- <InputField :name="name" @changeName="changeName"/>  --> <!-- $emit으로 넘긴 값을 간접적으로 받을 경우 값에 해당하는 $event를 해당 함수의 인자로 자동 전달 -->
-      <InputField :name="name" @changeName="name=$event"/> <!-- $emit으로 넘긴 값을 직접적으로 받을 경우 $event로 바로 받는다. -->
+      <!-- <InputField :name="name" @changeName="name=$event"/> --> <!-- $emit으로 넘긴 값을 직접적으로 받을 경우 $event로 바로 받는다. -->
+      <InputField v-model="name"/> <!-- v-model은 내부적으로 @input="name"과 :value="name"이 적용되므로 emit에서 input을 호출한다. (props가 value로 넘어감) -->
       <button>Submit</button>
     </form>
     <h1>This is a Home page</h1>
