@@ -7,11 +7,17 @@
       style="padding: 30px; border: 2px solid green"
       @input=" changeName"
     > -->
-    <input 
+    <!-- <input 
       type="text" 
       :value="name" 
       style="padding: 30px; border: 2px solid green"
       @input="$emit('changeName', $event.target.value)"
+    > -->
+    <input 
+      type="text" 
+      :value="value" 
+      style="padding: 30px; border: 2px solid green"
+      @input="$emit('input', $event.target.value)"
     >
   </div>
 </template>
@@ -19,11 +25,16 @@
 <script>
 export default {
   props: {
-    name: {
+    value: {
       type: String,
       required: true,
       default: null
     },
+    /* name: {
+      type: String,
+      required: true,
+      default: null
+    }, */
   },
   /* methods: {
     changeName(e) {
