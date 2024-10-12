@@ -1,7 +1,8 @@
 <template>
   <div>
     <form action="">
-      <InputField :name="name" @changeName="changeName"/>
+      <!-- <InputField :name="name" @changeName="changeName"/>  --> <!-- $emit으로 넘긴 값을 간접적으로 받을 경우 값에 해당하는 $event를 해당 함수의 인자로 자동 전달 -->
+      <InputField :name="name" @changeName="name=$event"/> <!-- $emit으로 넘긴 값을 직접적으로 받을 경우 $event로 바로 받는다. -->
       <button>Submit</button>
     </form>
     <h1>This is a Home page</h1>
@@ -26,9 +27,9 @@ export default {
     }
   },
   methods: {
-    changeName(name) {
+    /* changeName(name) {
       this.name = name
-    },
+    }, */
     updateName() {
       this.name = 'YooHyeok School Updated'
     }
