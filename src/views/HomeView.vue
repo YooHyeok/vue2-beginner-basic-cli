@@ -5,6 +5,7 @@
     <button @click="updateName">Change Name</button>
     <YooHyeokSchool />
     <yoo-hyeok-school v-bind="props"/>
+    <yoo-hyeok-school :title="5"/>
   </div>
 </template>
 <script>
