@@ -332,11 +332,204 @@
     </script>
     ```
   
-    주의할 점으로는 primitive 타입의 props는 값을 직접 수정할 수 없다.
-    그러나 Object 타입의 props는 해당 Object의 property 값을 직접 접근하여 수정할 수 있다.
-    `[Vue Warn]: Avoid mutating a prop directlry since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutatedL "props명"`
-    또한 해당 컴포넌트의 state 즉, data property에 동일한 이름이 존재할 수 없다.
-    `[Vue Warn]: The data property "props명" is already declared as a prop. Use prop default value instead`
+    주의할 점으로는 해당 컴포넌트의 state 즉, data property에 동일한 이름이 존재할 수 없다.  
+    `[Vue Warn]: The data property "props명" is already declared as a prop. Use prop default value instead`  
+    또한 primitive 타입의 props는 값을 직접 수정할 수 없다.  
+    그러나 Object 타입의 props는 해당 Object의 property 값을 직접 접근하여 수정할 수 있다.  
+    `[Vue Warn]: Avoid mutating a prop directlry since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutatedL "props명"`  
+    이때 사용하는 것이 바로 다음 시간에 배울 Emit이다.
+</details>
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    Emit
+  </summary>
+
+  ## emit 이란?
+  자식 컴포넌트에서 부모 컴포넌트로 트리거의 목적으로 이벤트를 보낼 수 있게 하는 기능이다.  
+  이때 인자값으로 데이터도 함께 보낼 수 있으며 `this.$emit('이벤트명', 데이터)` 형태로 호출한다.  
+  부모 컴포넌트의 템플릿에서 자식 컴포넌트를 선언할 때 이벤트를 등록한다.  
+  `<자식컴포넌트 @이벤트명="핸들러함수"` 와 같은 형태로 등록한다.  
+  이 기능을 통해 부모컴포넌트로 부터 전달받은 props를 자식 컴포넌트에서의 트리거(행위)를 통해 state 변경이 가능하다.  
+  물론 자식 컴포넌트에서 직접 변경하는 것이 아니라, 부모컴포넌트로 변경된 값을 넘겨 초기화 해주는 형태로 구현할 수 있다.
+
+  ### 1. 자식 컴포넌트 이벤트 핸들러 메소드를 통한 emit 간접 호출
+  - 부모컴포넌트
+    ```html
+    <template>
+      <InputField :name="name" @changeName="changeName"/>
+    </template>
+    <script>
+    import InputField from '@/components/InputField.vue'
+    export default {
+      components: { InputField },
+      data() {
+        return {
+          name: 'YooHyeok School',
+          props: {
+            title: '홈타이틀'
+          }
+        }
+      },
+      methods: {
+        changeName(name) {
+          console.log(name)
+          this.name = name
+        },
+      }
+    }
+    </script>
+    ```
+
+  - 자식컴포넌트 InputField
+    ```html
+    <template>
+      <div>
+        <label for="">Name</label>
+        <input 
+          type="text" 
+          :value="name" 
+          style="padding: 30px; border: 2px solid green"
+          @input=" changeName"
+        >
+      </div>
+    </template>
+    <script>
+    export default {
+      props: {
+        name: {
+          type: String,
+          required: true,
+          default: null
+        },
+      },
+      methods: {
+        changeName(e) {
+          this.$emit('changeName', e.target.value)
+        }
+      }
+    }
+    </script>
+    ```
+
+  ### 2. 자식 컴포넌트 이벤트 핸들러 emit 직접 호출
+
+  자식 컴포넌트의 @input이벤트 리스너에 메소드를 거치지 않고 바로 emit을 호출한다.  
+   - `"@input=$emit('changeName', $event)"` → `@changeName="name=$event.target.value"`  
+   - `"@input=$emit('changeName', $event.target.value)"` → `@changeName="name=$event"`  
+
+  위 코드와 같이 이렇게 전달하는 값은 흔히 이벤트 핸들러 함수에서 매개변수로 전달받는 이벤트 객체로 사용되는데, vue에서는 이를 $event로 받는다.  
+  자식 컴포넌트의 이벤트 핸들러에서 $event를 emit으로 직접 넘겼다면 부모 컴포넌트의 emit 이벤트 핸들러에서도 $event를 직접 받아 사용한다.  
+  만약 $event.target.value를 emit으로 직접 넘겼다면 해당 value를 $event로 받게 된다.  
+
+
+  - 부모컴포넌트
+    ```html
+    <template>
+      <InputField :name="name" @changeName="name=$event.target.value"/>
+    </template>
+    <script>
+    import InputField from '@/components/InputField.vue'
+    export default {
+      components: { InputField },
+      data() {
+        return {
+          name: 'YooHyeok School',
+          props: {
+            title: '홈타이틀'
+          }
+        }
+      },
+    }
+    </script>
+    ```
+  - 자식컴포넌트 InputField
+    ```html
+    <template>
+      <div>
+        <label for="">Name</label>
+        <input 
+          type="text" 
+          :value="name" 
+          style="padding: 30px; border: 2px solid green"
+          @input="$emit('changeName', $event)"
+        >
+      </div>
+    </template>
+
+    <script>
+    export default {
+      props: {
+        name: {
+          type: String,
+          required: true,
+          default: null
+        },
+      }
+    }
+    </script>
+    ```
+
+  ### 3. 부모 컴포넌트 v-model을 활용한 @input, :value 바인딩
+
+  부모 컴포넌트에 v-model을 적용함으로써 `@input="name=$event"`과 `:value="name"`이 적용되므로  
+  자식 컴포넌트의 props로 value라는 이름이 넘어가고 자식 컴포넌트에서 emit을 호출할 때 input 이라는 이벤트를 호출하여  
+  기능을 실행시킨다.
+  이때 `@input="name=$event"`은 `@input="(e) => {name = e}"`과 같다.
+  
+  - 부모컴포넌트
+    ```html
+    <template>
+      <InputField v-model="name"/>
+    </template>
+    <script>
+    import InputField from '@/components/InputField.vue'
+    export default {
+      components: { InputField },
+      data() {
+        return {
+          name: 'YooHyeok School',
+          props: {
+            title: '홈타이틀'
+          }
+        }
+      },
+      methods: {
+        changeName(name) {
+          console.log(name)
+          this.name = name
+        },
+      }
+    }
+    </script>
+    ```
+  - 자식컴포넌트 InputField
+    ```html
+    <template>
+      <div>
+        <label for="">Name</label>
+        <input 
+          type="text" 
+          :value="value" 
+          style="padding: 30px; border: 2px solid green"
+          @input="$emit('input', $event.target.value)"
+        >
+      </div>
+    </template>
+
+    <script>
+    export default {
+      props: {
+        value: {
+          type: String,
+          required: true,
+          default: null
+        },
+      },
+    }
+    </script>
+
+    ```
+  
 </details>
 <details>
   <summary style="font-size:30px; font-weight:bold; font-style:italic;">
