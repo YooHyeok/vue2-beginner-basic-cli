@@ -3,6 +3,9 @@
     <h1>{{ title }}</h1>
     <p>{{ name }}</p>
     <button @click="updateName">Change Name</button>
+    <slot name="header" :nameAttr="name"/>
+    <slot/> <!-- v-slot:default 영역 -->
+    <slot name="footer" :nameAttr="name"/>
   </div>
 </template>
 <script>
