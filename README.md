@@ -599,6 +599,84 @@
 </details>
 <details>
   <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    Vue 인스턴스 라이프 사이클
+  </summary>
+
+
+  ## 컴포넌트 최초 생성 및 렌더링 관련 훅  
+   - #### created 관련 훅
+     해당 컴포넌트 고유의 Vue 인스턴스가 생성된 직후에 호출된다.  
+     해당 시점에는 데이터와 메소드에 접근할 수 있으며, DOM에 컴포넌트가 추가 되기 전(렌더링 전) 이므로 DOM 관련 작업은 불가능하다.  
+     주로 API 호출 같은 작업을 이 시점에서 수행한다.  
+
+   - #### mounted 관련 훅
+     컴포넌트가 실제로 DOM에 추가된(렌더링) 후 호출된다.  
+     컴포넌트의 템플릿이 DOM에 렌더링 되어 있으므로, DOM 요소에 접근하거나 조작이 가능하다.  
+     특정 DOM 요소에 포커스를 주거나, 외부 라이브러리를 사용한 DOM 조작 작업 수행이 가능하다.
+
+  ## 실행 순서   
+   1. #### beforeCreate (생성 전)
+   2. #### created (생성 직후)
+   3. #### beforeMount (가상 DOM 준비)
+   4. #### mounted (렌더링 후)
+
+  ## mutate 한 state 변경 감지 훅  
+  state가 변경되었을때 변경을 감지한 뒤 실행한다.  
+  state가 template 영역 내에서 호출(사용)되어야 한다.
+   - #### beforeUpdate  
+     변경을 감지하고 변경되기 전 실행된다.
+   - #### updated  
+     변경을 감지하고 변경된 후 실행된다.
+  
+  ## 컴포넌트 종료 시점 실행 훅
+  현재 렌더링 된 컴포넌트가 라우트 등에 의해 종료될때 실행된다.
+  - #### beforeDestroy  
+    컴포넌트 라우트(종료) 직전 실행된다.  
+  - #### destroyed  
+    컴포넌트가 라우트(종료) 되고 난 후 실행된다.
+
+  ## 주제
+  내용
+
+  - 예시코드
+    ```html
+    <template>
+      <div>
+        <br>
+        {{ name }}
+        <button @click="updateName">updateName</button>
+      </div>
+    </template>
+    <script>
+    export default {
+      data() {
+        return {
+          name:'LifeCycle'
+        }
+      },
+      beforeCreate() {console.log("beforeCreate", this.name)},
+      created() {console.log("created", this.name)},
+      beforeMount() {console.log("beforeMount", this.name)},
+      mounted() {
+        console.log("mounted", this.name)
+        this.updateName();
+      },
+      beforeUpdate() {console.log("beforeUpdate", this.name)}, //name state가 template 영역 내에서 호출(사용)되어야 함
+      updated() {console.log("updated", this.name)},
+      beforeDestroy() {console.log("beforeDestroy", this.name)}, // about 컴포넌트로 route할 경우 실행됨
+      destroyed() {console.log("destroyed", this.name)},
+      methods: {
+        updateName() {
+          this.name='LifeCycle: '
+        }
+      }
+    }
+    </script>
+    ```
+  
+</details>
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
     접은글 템플릿
   </summary>
 
